@@ -1,0 +1,27 @@
+services:
+  mcp-server:
+    build:
+      context: ./mcp
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+
+  data-explorer:
+    build:
+      context: ./data-explorer
+      dockerfile: Dockerfile
+    ports:
+      - "7860:7860"
+    env_file:
+      - .env
+    environment:
+      - MCP_SERVER_URL=http://mcp-server:8000/mcp
+      - DOCKER_HOST_IP=host.docker.internal
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # Option 1: Use host network mode (uncomment if needed)
+    # network_mode: "host"
+    depends_on:
+      - mcp-server
