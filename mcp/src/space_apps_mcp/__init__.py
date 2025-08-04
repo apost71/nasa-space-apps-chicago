@@ -9,4 +9,4 @@ from .elastic_tools import ElasticTools
 from .appeears_tools import AppEEARSTools
 
 # Expose the server instance for mcp dev
-__all__ = ["mcp", "ElasticTools", "AppEEARSTools"] 
+__all__ = ["mcp", "ElasticTools", "AppEEARSTools"]

@@ -10,10 +10,15 @@ load_dotenv()
 class ElasticTools:
     def __init__(self):
         self.es = Elasticsearch(
-            hosts=[f"http://{os.getenv('ELASTIC_HOST', 'localhost')}:{os.getenv('ELASTIC_PORT', '9200')}"],
-            basic_auth=(os.getenv('ELASTIC_USERNAME', 'elastic'), os.getenv('ELASTIC_PASSWORD', ''))
+            hosts=[
+                f"http://{os.getenv('ELASTIC_HOST', 'localhost')}:{os.getenv('ELASTIC_PORT', '9200')}"
+            ],
+            basic_auth=(
+                os.getenv("ELASTIC_USERNAME", "elastic"),
+                os.getenv("ELASTIC_PASSWORD", ""),
+            ),
         )
-    
+
     def _list_indices(self) -> Dict[str, Any]:
         """List all Elastic indices"""
         try:
@@ -21,7 +26,7 @@ class ElasticTools:
             return {"status": "success", "indices": list(indices)}
         except Exception as e:
             return {"status": "error", "message": str(e)}
-    
+
     def _search_index(self, index: str, query: Dict[str, Any]) -> Dict[str, Any]:
         """Search an Elastic index with a query"""
         try:
@@ -29,7 +34,7 @@ class ElasticTools:
             return {"status": "success", "results": result}
         except Exception as e:
             return {"status": "error", "message": str(e)}
-    
+
     def _ingest_document(self, index: str, document: Dict[str, Any]) -> Dict[str, Any]:
         """Ingest a single document into Elastic"""
         try:
@@ -37,15 +42,12 @@ class ElasticTools:
             return {"status": "success", "result": result}
         except Exception as e:
             return {"status": "error", "message": str(e)}
-    
+
     def _bulk_ingest(self, index: str, documents: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Bulk ingest documents into Elastic"""
         try:
-            actions = [
-                {"_index": index, "_source": doc}
-                for doc in documents
-            ]
+            actions = [{"_index": index, "_source": doc} for doc in documents]
             result = self.es.bulk(operations=actions)
             return {"status": "success", "result": result}
         except Exception as e:
-            return {"status": "error", "message": str(e)} 
+            return {"status": "error", "message": str(e)}

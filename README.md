@@ -44,12 +44,16 @@ uv pip install -e .
 cp .env.example .env
 ```
 
+
+
 ### Docker Compose Setup
 
 1. Copy the example environment file and fill in your credentials:
 ```bash
 cp .env.example .env
 ```
+
+
 
 2. Build and start the services:
 ```bash
